@@ -124,48 +124,44 @@ class Colorizer():
             return (23, 23, 23)
 
 
-
-        pass
-
     @staticmethod
     def shapely(char):
         pass
 
     @staticmethod
     def maeditor(char):
-        pass
+        if char in ["A", "G"]:
+            return (32, 178, 170)
+        elif char in ["C"]:
+            return (0, 255, 0)
+        elif char in ["D", "E", "N", "Q"]:
+            return (0, 100, 0)
+        elif char in ["I", "L", "M", "V"]:
+            return (0, 0, 255)
+        elif char in ["F", "W", "Y"]:
+            return (218, 112, 214)
+        elif char in ["H"]:
+            return (0, 0, 100) #Dark blue
+        elif char in ["K", "R"]:
+            return (255, 165, 0)
+        elif char in ["P"]:
+            return (255, 192, 203)
+        elif char in ["S", "T"]:
+            return (255, 0, 0)
+        elif char in ["-"]:
+            return (242, 242, 242)
+        elif char in ["X"]:
+            return (23, 23, 23)
+        else:
+            return (0,0,0)
 
-    colors = {
-    "A": (32, 178, 170),  #light green
-    "G": (32, 178, 170),  #light green
-    "C": (0, 200, 0),  #green
-    "D": (0, 100, 0),  #dark green
-    "E": (0, 100, 0),  #dark green
-    "N": (0, 100, 0),  #dark green
-    "Q": (0, 100, 0),  #dark green
-    "I": (0, 0, 200),  #Blue
-    "L": (0, 0, 200),  #Blue
-    "M": (0, 0, 200),  #Blue
-    "V": (0, 0, 200),  #Blue
-    "F": (218, 112, 214), #orchid
-    "W": (218, 112, 214), #orchid
-    "Y": (218, 112, 214), #orchid /Lilac
-    "H": (0, 0, 100),  #Dark blue
-    "K": (255, 165, 0),	 #Orange
-    "R": (255, 165, 0),
-    "P": (255, 192, 203), #	Pink
-    "S": (255, 0, 0),  #
-    "T": (255, 0, 0), #Red
-    "-": (242, 242, 242),
-    "X": (23, 23, 23)
-    }
+
 
     @staticmethod
     def color(char, colorscheme=None):
         if not colorscheme:
             return Colorizer.colors[char]
         else:
-
             colorfunc = None
             if colorscheme:
                 if colorscheme == "cinema":
@@ -179,4 +175,4 @@ class Colorizer():
                 elif colorscheme == "maeditor" or colorscheme == "default":
                     colorfunc = Colorizer.maeditor
 
-            return colorfunc(char)
+                return colorfunc(char)
