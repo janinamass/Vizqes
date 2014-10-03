@@ -79,7 +79,6 @@ def draw(aln_file, outfile, colorscheme, boxwidth, boxheight):
         for x, xs in enumerate(member.sequence):
             x *= boxwidth
             color = Colorizer.color(char=xs, colorscheme=colorscheme)
-            print(color)
             for i in xrange(0, boxwidth):
                 xd = x + i
                 for j in xrange(0, boxheight):
