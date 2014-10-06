@@ -13,4 +13,4 @@ Examples:
 
 ![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/dna1.png)
 
-![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/dna1.png)
+![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/dna2.png)
