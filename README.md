@@ -10,3 +10,7 @@ Examples:
 ![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/ex2.png)
 
 ![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/ex1.png)
+
+![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/dna1.png)
+
+![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/dna1.png)

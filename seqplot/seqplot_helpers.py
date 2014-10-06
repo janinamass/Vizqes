@@ -209,15 +209,24 @@ class Colorizer():
     def dna_color(char):
         if char in ["A"]:
             return 255, 0, 0
+        elif char in ["a"]:
+            return 127, 0, 0
         elif char in ["T"]:
             return 0, 255, 0
+        elif char in ["t"]:
+            return 0, 175, 0
         elif char in ["G"]:
             return 0, 0, 255
+        elif char in ["g"]:
+            return 0, 0, 175
         elif char in ["C"]:
             return 255, 255, 0
+        elif char in ["c"]:
+            return 175, 175, 0
         elif char in ["-"]:
-            return 100, 100, 0
+            return 180, 180, 180
         else:
+            sys.stderr.write("Found character: {}\n".format(char))
             raise WrongInputException
 
     @staticmethod
