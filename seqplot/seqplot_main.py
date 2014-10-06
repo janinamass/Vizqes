@@ -1,10 +1,10 @@
-#!/usr/env/python
+#!/usr/bin/env python
 import sys
 import os
 import getopt
-import Image
-import ImageDraw
-import ImageFont
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 from seqplot.seqplot_helpers import Alignment
 from seqplot.seqplot_helpers import Colorizer
 from seqplot.seqplot_helpers import WrongInputException
