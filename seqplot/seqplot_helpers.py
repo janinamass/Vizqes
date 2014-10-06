@@ -1,5 +1,6 @@
 import sys
 
+
 class Alignment(object):
     """ Store alignment information """
     def __init__(self, name=None, fasta=None):
@@ -153,26 +154,94 @@ class Colorizer():
         elif char in ["X"]:
             return (23, 23, 23)
         else:
-            return (0,0,0)
+            return (0, 0, 0)
 
+    # unique color for each amino acid
+    @staticmethod
+    def aacid(char):
+        if char in ["A"]:
+            return 235, 0, 124
+        elif char in ["R"]:
+            return 255, 13,  0
+        elif char in ["N"]:
+            return 149,  0, 219
+        elif char in ["D"]:
+            return 159, 247, 0
+        elif char in ["C"]:
+            return 50, 238, 0
+        elif char in ["Q"]:
+            return 0, 216, 180
+        elif char in ["E"]:
+            return 180, 249, 0
+        elif char in ["G"]:
+            return 251,  0, 29
+        elif char in ["H"]:
+            return 255, 44, 0
+        elif char in ["I"]:
+            return 255, 133, 0
+        elif char in ["L"]:
+            return 239, 0, 101
+        elif char in ["K"]:
+            return 0, 226, 84
+        elif char in ["M"]:
+            return 0, 190, 114
+        elif char in ["F"]:
+            return 0,100,183
+        elif char in ["P"]:
+            return 101, 232, 0
+        elif char in ["S"]:
+            return 255, 76, 0
+        elif char in ["T"]:
+            return 107, 23, 153
+        elif char in ["W"]:
+            return 156, 16, 144
+        elif char in ["Y"]:
+            return 183, 221, 23
+        elif char in ["V"]:
+            return 230,230, 24
+        elif char in ["-"]:
+            return 255, 255, 255
+        elif char in ["X"]:
+            return 180, 180, 180
 
+    #DNA
+    @staticmethod
+    def dna_color(char):
+        if char in ["A"]:
+            return 255, 0, 0
+        elif char in ["T"]:
+            return 0, 255, 0
+        elif char in ["G"]:
+            return 0, 0, 255
+        elif char in ["C"]:
+            return 255, 255, 0
+        elif char in ["-"]:
+            return 100, 100, 0
+        else:
+            raise WrongInputException
 
     @staticmethod
     def color(char, colorscheme=None):
-        if not colorscheme:
-            return Colorizer.colors[char]
-        else:
-            colorfunc = None
-            if colorscheme:
-                if colorscheme == "cinema":
-                    colorfunc = Colorizer.cinema
-                elif colorscheme == "lesk":
-                    colorfunc = Colorizer.lesk
-                elif colorscheme == "clustal":
-                    colorfunc = Colorizer.clustal
-                elif colorfunc == "shapely":
-                    colorfunc = Colorizer.shapely
-                elif colorscheme == "maeditor" or colorscheme == "default":
-                    colorfunc = Colorizer.maeditor
+        colorfunc = Colorizer.maeditor
+        if colorscheme:
+            if colorscheme == "cinema":
+                colorfunc = Colorizer.cinema
+            elif colorscheme == "lesk":
+                colorfunc = Colorizer.lesk
+            elif colorscheme == "clustal":
+                colorfunc = Colorizer.clustal
+            elif colorscheme == "shapely":
+                colorfunc = Colorizer.shapely
+            elif colorscheme == "dna":
+                colorfunc = Colorizer.dna_color
+            elif colorscheme == "aacid":
+                colorfunc = Colorizer.aacid
+            elif colorscheme == "maeditor" or colorscheme == "default":
+                colorfunc = Colorizer.maeditor
+        return colorfunc(char)
 
-                return colorfunc(char)
+
+class WrongInputException(Exception):
+    pass
+
+

@@ -7,7 +7,7 @@ import ImageDraw
 import ImageFont
 from seqplot.seqplot_helpers import Alignment
 from seqplot.seqplot_helpers import Colorizer
-
+from seqplot.seqplot_helpers import WrongInputException
 
 
 def main():
@@ -58,7 +58,7 @@ def main():
     if not aln_file:
         usage()
 
-    colorschemes = ["default", "maeditor", "cinema", "lesk", "clustal"]
+    colorschemes = ["default", "maeditor", "cinema", "lesk", "clustal", "aacid", "dna"]
     if not colorscheme in colorschemes:
         sys.stderr.write("No such colorscheme: {}\n"
                          "available: {}\n falling back to default".format(colorscheme, ",".join(colorschemes)))
@@ -81,10 +81,18 @@ def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, 
     names = [m.name for m in al.members]
     if show_names:
         if fontpath:
-            font = ImageFont.truetype(fontpath, boxheight)
+            font_searchpath = fontpath
         else:
-            font = ImageFont.truetype(os.path.dirname(__file__)+os.sep+"data"+os.sep+"FreeMono.ttf", boxheight)
-        offset = font.getsize(max(names, key=len))[0]
+            font_searchpath = os.path.dirname(os.path.abspath(__file__))+os.sep+"data"+os.sep+"FreeMono.ttf"
+        try:
+            font = ImageFont.truetype(font_searchpath, boxheight)
+            offset = font.getsize(max(names, key=len))[0]
+            sys.stdout.write("Found font in {}\n".format(str(font_searchpath)))
+        except IOError as e:
+            sys.stderr.write(str(e))
+            sys.stderr.write("could not find font in {}\nPlease provide a font path with the -F option\n".format(str(font_searchpath)))
+            show_names = False
+            offset = 0
 
     height = len(al.members) * boxheight
     width = len(al.members[0].sequence) * boxwidth + offset
@@ -97,7 +105,11 @@ def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, 
         y *= boxheight
         for x, xs in enumerate(member.sequence):
             x *= boxwidth
-            color = Colorizer.color(char=xs, colorscheme=colorscheme)
+            try:
+                color = Colorizer.color(char=xs, colorscheme=colorscheme)
+            except WrongInputException as e:
+                sys.stderr.write("Error! "+str(e)+"{} does not work with colorscheme {}.\nNo output produced.\n".format(al.name, colorscheme))
+                sys.exit(1)
             for i in xrange(0, boxwidth):
                 xd = x + i + offset
                 for j in xrange(0, boxheight):
