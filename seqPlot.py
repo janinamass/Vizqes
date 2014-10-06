@@ -10,7 +10,6 @@ here = os.path.dirname(__file__)
 
 def main():
     """Main"""
-    """Main"""
     aln_file = None
     boxwidth = 1
     boxheight = 1
