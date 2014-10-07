@@ -10,8 +10,8 @@ setup(
         scripts=['seqPlot.py'],
         package_data = {'seqplot': ['data/FreeMono.ttf']},	
         license='GPLv3',
-        url='https://pypi.python.org/pypi/seqSieve/',
-        description='Remove outlier sequences from multiple sequence alignment',
+        url='https://pypi.python.org/pypi/seqPlot/',
+        description='Visualize (multiple) sequence alignment (MSA) with colored boxes',
         long_description=open('README.md').read(),
        	include_package_data=True, 
 	classifiers=[
