@@ -22,4 +22,3 @@ Plot overview of Multiple Sequence Alignments (MSA) using colored boxes
     adding identifiers:
        [ -s, --show_names    also draw sequence ids ]
        [ -F, --font_file=FONT path to truetype font (monospace fonts recommended) ]
-    """)
