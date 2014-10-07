@@ -25,12 +25,12 @@ Plot overview of Multiple Sequence Alignments (MSA) using colored boxes
     """)
 Examples:
 
-![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/ex3.png)
+![alt tag](https://raw.github.com/janinamass/SeqPlot/master/example/ex3.png)
 
-![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/ex2.png)
+![alt tag](https://raw.github.com/janinamass/SeqPlot/master/example/ex2.png)
 
-![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/ex1.png)
+![alt tag](https://raw.github.com/janinamass/SeqPlot/master/example/ex1.png)
 
-![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/dna1.png)
+![alt tag](https://raw.github.com/janinamass/SeqPlot/master/example/dna1.png)
 
-![alt tag](https://raw.github.com/janinamass/SeqPlot/identifiers/example/dna2.png)
+![alt tag](https://raw.github.com/janinamass/SeqPlot/master/example/dna2.png)
