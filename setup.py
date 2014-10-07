@@ -14,8 +14,8 @@ setup(
         description='Visualize (multiple) sequence alignment (MSA) with colored boxes',
         long_description=open('README.txt').read(),
        	include_package_data=True,
-	install_requires=['Pillow'], 
-	classifiers=[
+        install_requires=['Pillow'],
+        classifiers=[
             'Programming Language :: Python :: 2.7',
             'Topic :: Scientific/Engineering :: Bio-Informatics'
             ],
