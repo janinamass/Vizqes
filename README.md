@@ -33,4 +33,4 @@ Examples:
 
 ![alt tag](https://raw.github.com/janinamass/Vizqes/master/example/dna1.png)
 
-![alt tag](https://raw.github.com/janinamass/VizqesS/master/example/dna2.png)
+![alt tag](https://raw.github.com/janinamass/Vizqes/master/example/dna2.png)
