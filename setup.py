@@ -2,13 +2,13 @@ import os
 import glob
 from setuptools import setup, find_packages
 setup(
-        name='seqPlot',
+        name='vizqes',
         version='0.1.0',
         author='Janina Mass',
         author_email='janina.mass@hhu.de',
-        packages=['seqplot'],
-        scripts=['seqPlot.py'],
-        package_data = {'seqplot': ['data/FreeMono.ttf']},	
+        packages=['vizqespkg'],
+        scripts=['vizqes'],
+        package_data = {'vizqespkg': ['data/FreeMono.ttf']},
         license='GPLv3',
         url='https://pypi.python.org/pypi/seqPlot/',
         description='Visualize (multiple) sequence alignment (MSA) with colored boxes',

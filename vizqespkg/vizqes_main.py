@@ -5,9 +5,9 @@ import getopt
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
-from seqplot.seqplot_helpers import Alignment
-from seqplot.seqplot_helpers import Colorizer
-from seqplot.seqplot_helpers import WrongInputException
+from vizqespkg.vizqes_helpers import Alignment
+from vizqespkg.vizqes_helpers import Colorizer
+from vizqespkg.vizqes_helpers import WrongInputException
 
 
 def main():
@@ -110,9 +110,9 @@ def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, 
             except WrongInputException as e:
                 sys.stderr.write("Error! "+str(e)+"{} does not work with colorscheme {}.\nNo output produced.\n".format(al.name, colorscheme))
                 sys.exit(1)
-            for i in xrange(0, boxwidth):
+            for i in range(0, boxwidth):
                 xd = x + i + offset
-                for j in xrange(0, boxheight):
+                for j in range(0, boxheight):
                     yd = y + j
                     draw.point((xd, yd), fill=color)
         if show_names:
