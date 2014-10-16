@@ -20,6 +20,7 @@ def main():
     fontpath = None
     show_names = False
     show_grouping = False
+    out_format = "png"
     try:
         opts, args = getopt.gnu_getopt(sys.argv[1:],
                                        "f:F:o:x:y:c:sgh",
@@ -42,7 +43,11 @@ def main():
             usage()
         elif o in ("-o", "--outfile"):
             outfile = a
-            if not outfile.endswith(".png"):
+            if outfile.endswith(".eps"):
+                out_format = "eps"
+            elif outfile.endswith(".jpg") or outfile.endswith(".jpeg"):
+                out_format = "jpeg"
+            elif not outfile.endswith(".png"):
                 outfile += ".png"
         elif o in ("-x", "--boxwidth"):
             boxwidth = int(a)
@@ -69,14 +74,13 @@ def main():
         colorscheme = "default"
     if show_grouping:
         draw_feat(aln_file=aln_file, outfile=outfile, colorscheme=None, boxwidth=boxwidth,
-                  boxheight=boxheight, show_names=show_names, fontpath=fontpath)
+                  boxheight=boxheight, show_names=show_names, fontpath=fontpath, out_format=out_format)
     else:
         draw(aln_file=aln_file, outfile=outfile, colorscheme=colorscheme, boxwidth=boxwidth,
-             boxheight=boxheight, show_names=show_names, fontpath=fontpath)
+             boxheight=boxheight, show_names=show_names, fontpath=fontpath, out_format=out_format)
 
 
-def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, fontpath=None):
-    print("draw")
+def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, fontpath=None, out_format="png"):
     #defaults
     boxwidth = boxwidth
     boxheight = boxheight
@@ -125,13 +129,15 @@ def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, 
             draw.text((0, yd-boxheight), member.name, font=font, fill=(0, 0, 0))
 
     if not outfile:
+        print("Wrote "+aln_file+".png")
         img.save(aln_file+".png", "png")
     else:
-        img.save(outfile, "png")
+        print("Wrote "+outfile)
+        img.save(outfile, out_format)
 
 
 #draw match, gaps, etc instead of coloring residues
-def draw_feat(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, fontpath=None):
+def draw_feat(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, fontpath=None, out_format="png"):
     #defaults
     boxwidth = boxwidth
     boxheight = boxheight
@@ -193,9 +199,13 @@ def draw_feat(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=Fa
             draw.text((0, yd-boxheight), member.name, font=font, fill=(0, 0, 0))
 
     if not outfile:
+        print("Wrote "+aln_file+".png")
         img.save(aln_file+".png", "png")
+
     else:
-        img.save(outfile, "png")
+        print("Wrote "+outfile)
+        img.save(outfile, out_format)
+
 
 
 def usage():
