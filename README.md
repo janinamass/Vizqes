@@ -12,7 +12,7 @@ Plot overview of Multiple Sequence Alignments (MSA) using colored boxes
     options:
          -f, --fasta=FILE    multifasta alignment (eg. "align.fas")
 
-       [ -o, --outfile=STR   output file (png) ]
+       [ -o, --outfile=STR   output file (png, eps, jpg) ]
        [ -c, --colorscheme=STR STR in ("default", "clustal", "lesk",
                                        "cinema", "maeditor", "dna",
                                        "aacid") ]
@@ -21,6 +21,8 @@ Plot overview of Multiple Sequence Alignments (MSA) using colored boxes
 
     adding identifiers:
        [ -s, --show_names    also draw sequence ids ]
+       [ -g, --show_grouping] draw colors for match, mismatch, gap, and gapped matches
+                              (ignores colorscheme) ]
        [ -F, --font_file=FONT path to truetype font (monospace fonts recommended) ]
     """)
 Examples:
