@@ -3,7 +3,7 @@ import glob
 from setuptools import setup, find_packages
 setup(
         name='vizqes',
-        version='0.1.0',
+        version='0.9.0',
         author='Janina Mass',
         author_email='janina.mass@hhu.de',
         packages=['vizqespkg'],
