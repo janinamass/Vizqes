@@ -21,7 +21,7 @@ def main():
     show_names = False
     try:
         opts, args = getopt.gnu_getopt(sys.argv[1:],
-                                       "f:F:o:x:y:c:sh",
+                                       "f:F:o:x:y:c:sgh",
                                        ["fasta=",
                                         "font_file",
                                         "outifle",
@@ -29,6 +29,7 @@ def main():
                                         "boxheight=",
                                         "colorscheme=",
                                         "show_names",
+                                        "show_grouping",
                                         "help"])
     except getopt.GetoptError as err:
         print(str(err))
@@ -52,6 +53,8 @@ def main():
             fontpath = a
         elif o in ("-s", "--show_names"):
             show_names = True
+        elif o in ("-g", "--grouping"):
+            show_grouping = True
         else:
             print(o)
             assert False, "unhandled option"
@@ -69,6 +72,7 @@ def main():
 
 
 def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, fontpath=None):
+    print("draw")
     #defaults
     width = 800
     height = 600
@@ -124,13 +128,82 @@ def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, 
         img.save(outfile, "png")
 
 
+#draw match, gaps, etc instead of coloring residues
+def draw_feat(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, fontpath=None):
+    #defaults
+    width = 800
+    height = 600
+    boxwidth = boxwidth
+    boxheight = boxheight
+    offset = 0
+    font = None
+    #read in fasta
+    al = Alignment(name=aln_file, fasta=aln_file)
+    al.calc_numbers()
+    names = [m.name for m in al.members]
+
+    if show_names:
+        if fontpath:
+            font_searchpath = fontpath
+        else:
+            font_searchpath = os.path.dirname(os.path.abspath(__file__))+os.sep+"data"+os.sep+"FreeMono.ttf"
+        try:
+            font = ImageFont.truetype(font_searchpath, boxheight)
+            offset = font.getsize(max(names, key=len))[0]
+            sys.stdout.write("Found font in {}\n".format(str(font_searchpath)))
+        except IOError as e:
+            sys.stderr.write(str(e))
+            sys.stderr.write("could not find font in {}\nPlease provide a font path with the -F option\n".format(str(font_searchpath)))
+            show_names = False
+            offset = 0
+
+    height = len(al.members) * boxheight
+    width = len(al.members[0].sequence) * boxwidth + offset
+
+    img = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(img)
+    yd = None
+
+    for y, member in enumerate(al.members):
+        print(y, member)
+        y *= boxheight
+        for x, xs in enumerate(member.sequence):
+
+            try:
+                if x in al.gap_pos:
+                    color = Colorizer.color(char="gap", colorscheme="feature")
+                if x in al.match_gap_pos:
+                    color = Colorizer.color(char="gap_match", colorscheme="feature")
+                if x in al.match_pos:
+                    color = Colorizer.color(char="match", colorscheme="feature")
+                if x in al.mismatch_pos:
+                    color = Colorizer.color(char="mismatch", colorscheme="feature")
+
+            except WrongInputException as e:
+                sys.stderr.write("Error! "+str(e)+"{} does not work with colorscheme {}.\nNo output produced.\n".format(al.name, colorscheme))
+                sys.exit(1)
+            x *= boxwidth
+            for i in range(0, boxwidth):
+                xd = x + i + offset
+                for j in range(0, boxheight):
+                    yd = y + j
+                    draw.point((xd, yd), fill=color)
+        if show_names:
+            draw.text((0, yd-boxheight), member.name, font=font, fill=(0, 0, 0))
+
+    if not outfile:
+        img.save(aln_file+".png", "png")
+    else:
+        img.save(outfile, "png")
+
+
 def usage():
     print("""
     ######################################
-    # seqPlot.py
+    # vizqes
     ######################################
     usage:
-        seqPlot.py -f multifasta alignment
+        vizqes -f multifasta alignment
     options:
          -f, --fasta=FILE    multifasta alignment (eg. "align.fas")
 
@@ -141,7 +214,9 @@ def usage():
        [ -y, --boxheight=INT draw INT pixels per residue (y direction) ]
 
     adding identifiers:
-       [ -s, --show_names    also draw sequence ids ]
+       [ -s, --show_names     also draw sequence ids ]
+       [ -g, --show_grouping] draw colors for match, mismatch, gap, and gapped matches
+                              (ignores colorscheme) ]
        [ -F, --font_file=FONT path to truetype font (monospace fonts recommended) ]
     """)
     sys.exit(2)
