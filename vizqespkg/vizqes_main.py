@@ -19,12 +19,13 @@ def main():
     outfile = None
     fontpath = None
     show_names = False
+    show_grouping = False
     try:
         opts, args = getopt.gnu_getopt(sys.argv[1:],
                                        "f:F:o:x:y:c:sgh",
                                        ["fasta=",
                                         "font_file",
-                                        "outifle",
+                                        "outfile",
                                         "boxwidth=",
                                         "boxheight=",
                                         "colorscheme=",
@@ -53,7 +54,7 @@ def main():
             fontpath = a
         elif o in ("-s", "--show_names"):
             show_names = True
-        elif o in ("-g", "--grouping"):
+        elif o in ("-g", "--show_grouping"):
             show_grouping = True
         else:
             print(o)
@@ -66,16 +67,17 @@ def main():
         sys.stderr.write("No such colorscheme: {}\n"
                          "available: {}\n falling back to default".format(colorscheme, ",".join(colorschemes)))
         colorscheme = "default"
-
-    draw(aln_file=aln_file, outfile=outfile, colorscheme=colorscheme, boxwidth=boxwidth,
-         boxheight=boxheight, show_names=show_names, fontpath=fontpath)
+    if show_grouping:
+        draw_feat(aln_file=aln_file, outfile=outfile, colorscheme=None, boxwidth=boxwidth,
+                  boxheight=boxheight, show_names=show_names, fontpath=fontpath)
+    else:
+        draw(aln_file=aln_file, outfile=outfile, colorscheme=colorscheme, boxwidth=boxwidth,
+             boxheight=boxheight, show_names=show_names, fontpath=fontpath)
 
 
 def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, fontpath=None):
     print("draw")
     #defaults
-    width = 800
-    height = 600
     boxwidth = boxwidth
     boxheight = boxheight
     offset = 0
@@ -131,8 +133,6 @@ def draw(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, 
 #draw match, gaps, etc instead of coloring residues
 def draw_feat(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=False, fontpath=None):
     #defaults
-    width = 800
-    height = 600
     boxwidth = boxwidth
     boxheight = boxheight
     offset = 0
@@ -142,6 +142,8 @@ def draw_feat(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=Fa
     al.calc_numbers()
     names = [m.name for m in al.members]
 
+    width = len(al.members[0].sequence) * boxwidth + offset
+    height = len(al.members) * boxheight
     if show_names:
         if fontpath:
             font_searchpath = fontpath
@@ -156,16 +158,15 @@ def draw_feat(aln_file, outfile, colorscheme, boxwidth, boxheight, show_names=Fa
             sys.stderr.write("could not find font in {}\nPlease provide a font path with the -F option\n".format(str(font_searchpath)))
             show_names = False
             offset = 0
-
-    height = len(al.members) * boxheight
-    width = len(al.members[0].sequence) * boxwidth + offset
+    else:
+        height = 1 * boxheight
+        al.members = [al.members[0]]
 
     img = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(img)
     yd = None
 
     for y, member in enumerate(al.members):
-        print(y, member)
         y *= boxheight
         for x, xs in enumerate(member.sequence):
 

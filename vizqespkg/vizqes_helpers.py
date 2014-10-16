@@ -1,5 +1,7 @@
 import sys
 
+GAP = '-'
+
 
 class Alignment(object):
     """ Store alignment information """
@@ -8,6 +10,24 @@ class Alignment(object):
         self.fasta = fasta
         self.members = []
         self.attach_sequences()
+        self.gap_pos = []
+        self.mismatch_pos = []
+        self.match_pos = []
+        self.match_gap_pos = []
+
+    def calc_numbers(self):
+        for i in range(0, len(self)):
+            curpos = [m.sequence[i] for m in self.members]
+            if GAP in curpos:
+                self.gap_pos.append(i)
+            nongap = [c for c in curpos if c != GAP]
+            cpset = set(curpos)
+            if len(cpset) > 1 and GAP not in cpset:
+                self.mismatch_pos.append(i)
+            elif len(cpset) == 1 and GAP not in cpset:
+                self.match_pos.append(i)
+            elif len(cpset) == 2 and GAP in cpset and len(nongap) > 2:
+                self.match_gap_pos.append(i)
 
     def __repr__(self):
         ids = self.members
@@ -110,7 +130,6 @@ class Colorizer():
         else:
             return (23, 23, 23)
 
-
     @staticmethod
     def clustal(char):
         if char in ["G", "P", "S", "T"]:
@@ -123,7 +142,6 @@ class Colorizer():
             return (0, 255, 0)
         else:
             return (23, 23, 23)
-
 
     @staticmethod
     def shapely(char):
@@ -204,7 +222,19 @@ class Colorizer():
         elif char in ["X"]:
             return 180, 180, 180
 
-    #DNA
+    @staticmethod
+    def feature(char):
+
+        if char in ["match"]:
+            return 0, 255, 0
+        elif char in ["mismatch"]:
+            return 255, 0,  0
+        elif char in ["gap_match"]:
+            return 0,  0, 255
+        elif char in ["gap"]:
+            return 0, 0, 0
+
+     #DNA
     @staticmethod
     def dna_color(char):
         if char in ["A"]:
@@ -247,6 +277,8 @@ class Colorizer():
                 colorfunc = Colorizer.aacid
             elif colorscheme == "maeditor" or colorscheme == "default":
                 colorfunc = Colorizer.maeditor
+            elif colorscheme == "feature":
+                colorfunc = Colorizer.feature
         return colorfunc(char)
 
 
