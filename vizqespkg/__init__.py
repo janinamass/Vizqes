@@ -1,1 +1,1 @@
-from vizqes_helpers import *
+from .vizqes_helpers import *

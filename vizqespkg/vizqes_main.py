@@ -218,9 +218,10 @@ def usage():
     options:
          -f, --fasta=FILE    multifasta alignment (eg. "align.fas")
 
-       [ -o, --outfile=STR   output file (png) ]
+       [ -o, --outfile=STR   output file (png, eps, jpg) ]
        [ -c, --colorscheme=STR STR in ("default", "clustal", "lesk",
-                                       "cinema", "maeditor") ]
+                                       "cinema", "maeditor", "dna",
+                                       "aacid") ]
        [ -x, --boxwidth=INT draw INT pixels per residue (x direction) ]
        [ -y, --boxheight=INT draw INT pixels per residue (y direction) ]
 
