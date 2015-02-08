@@ -1,7 +1,7 @@
 Vizqes
 =======
 
-Plot overview of Multiple Sequence Alignments (MSA) using colored boxes
+Plot overview of Multiple Sequence Alignments (MSA)
 
 
     ######################################
